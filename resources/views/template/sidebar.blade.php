@@ -44,6 +44,7 @@
                 <h6 class="collapse-header">Page Menu:</h6>
                 <a class="collapse-item" href="{{ route('payment.index') }}">Payment</a>
                 <a class="collapse-item" href="{{ route('payment.filter') }}">Payment success</a>
+                <a class="collapse-item" href="{{ route('payment.pending') }}">Payment Pending</a>
             </div>
         </div>
     </li>

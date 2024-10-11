@@ -77,6 +77,7 @@ Route::get('user/users/{id}/viewuser', [UserController::class, 'view'])->name('u
 
 Route::get('Payment/payment', [PaymentController::class, 'index'])->name('payment.index');
 Route::get('Payment/paymentsuccess', [PaymentController::class, 'success'])->name('payment.filter');
+Route::get('Payment/paymentpending', [PaymentController::class, 'pending'])->name('payment.pending');
 
 
 Route::get('Post/post', [PostController::class, 'index'])->name('post.index');

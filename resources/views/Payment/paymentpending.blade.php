@@ -28,118 +28,33 @@
 
                 <!-- Begin Page Content -->
                 <div class="container-fluid">
-                    <div class="row">
 
-                        <div class="col-xl-3 col-md-6 mb-4">
-                            <div class="card border-left-primary shadow h-100 py-2">
-                                <div class="card-body">
-                                    <div class="row no-gutters align-items-center">
-                                        <div class="col mr-2">
-                                            <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
-                                                Payment</div>
-                                            <div class="h5 mb-0 font-weight-bold text-gray-800">{{ $paymentcount }}</div>
-                                        </div>
-                                        <div class="col-auto">
-                                            <i class="fas fa-dollar-sign fa-2x text-gray-300"></i>
-                                        </div>
+                    <!-- Page Heading -->
+                    <div class="col-xl-3 col-md-6 mb-4">
+                        <div class="card border-left-primary shadow h-100 py-2">
+                            <div class="card-body">
+                                <div class="row no-gutters align-items-center">
+                                    <div class="col mr-2">
+                                        <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                                            Payment pending</div>
+                                        <div class="h5 mb-0 font-weight-bold text-gray-800">{{ $paymentcount }}</div>
+                                    </div>
+                                    <div class="col-auto">
+                                        <i class="fas fa-dollar-sign fa-2x text-gray-300"></i>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <div class="col-xl-3 col-md-6 mb-4">
-                            <div class="card border-left-primary shadow h-100 py-2">
-                                <div class="card-body">
-                                    <div class="row no-gutters align-items-center">
-                                        <div class="col mr-2">
-                                            <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
-                                                Payment</div>
-                                            <div class="h5 mb-0 font-weight-bold text-gray-800">{{ $paymentsWithoutUserId }}</div>
-                                        </div>
-                                        <div class="col-auto">
-                                            <i class="fas fa-dollar-sign fa-2x text-gray-300"></i>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-xl-3 col-md-6 mb-4">
-                            <div class="card border-left-primary shadow h-100 py-2">
-                                <div class="card-body">
-                                    <div class="row no-gutters align-items-center">
-                                        <div class="col mr-2">
-                                            <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
-                                                Payment Success</div>
-                                            <div class="h5 mb-0 font-weight-bold text-gray-800">{{ $paymentSuccessCount }}</div>
-                                        </div>
-                                        <div class="col-auto">
-                                            <i class="fas fa-dollar-sign fa-2x text-gray-300"></i>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-xl-3 col-md-6 mb-4">
-                            <div class="card border-left-primary shadow h-100 py-2">
-                                <div class="card-body">
-                                    <div class="row no-gutters align-items-center">
-                                        <div class="col mr-2">
-                                            <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
-                                                Payment Pending</div>
-                                            <div class="h5 mb-0 font-weight-bold text-gray-800">{{ $paymentPendingCount }}</div>
-                                        </div>
-                                        <div class="col-auto">
-                                            <i class="fas fa-dollar-sign fa-2x text-gray-300"></i>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- Page Heading -->
-
                     </div>
 
-
                     <!-- DataTables Example -->
-                    <style>
-                        .filter-section .input-group-text {
-                            background-color: #f8f9fa;
-                            border: 1px solid #ced4da;
-                            border-radius: 0.35rem;
-                        }
-
-                        .filter-section select,
-                        .filter-section input {
-                            border-radius: 0.35rem;
-                        }
-
-                        .btn-gradient {
-                            background: linear-gradient(90deg, #4e73df, #224abe);
-                            color: white;
-                            transition: background 0.3s ease;
-                        }
-
-                        .btn-gradient:hover {
-                            background: linear-gradient(90deg, #224abe, #4e73df);
-                        }
-
-                        .status-badge.success {
-                            background-color: #28a745;
-                            color: white;
-                        }
-
-                        .status-badge.failed {
-                            background-color: #dc3545;
-                            color: white;
-                        }
-                    </style>
-
                     <div class="card shadow-lg mb-4">
-                        <div class="card-header py-3 bg-primary text-white rounded-top">
-                            <h6 class="m-0 font-weight-bold">Payment Data</h6>
+                        <div class="card-header py-2 bg-primary text-white">
+                            <h6 class="m-0 font-weight-bold">Payment Pending Data</h6>
                         </div>
-                        <div class="card-body filter-section">
-                            <!-- Filter Form -->
-                            <form method="GET" action="{{ route('payment.index') }}">
+                        <div class="card-body">
+                            <!-- Filter Dropdown -->
+                            <form method="GET" action="{{ route('payment.pending') }}">
                                 <div class="form-row">
                                     <!-- Filter by Province -->
                                     <div class="col-md-3 mb-3">
@@ -218,7 +133,7 @@
                                                 </button>
                                             </div>
                                             <div class="col">
-                                                <a href="{{ route('payment.index') }}" class="btn btn-secondary btn-block">
+                                                <a href="{{ route('payment.filter') }}" class="btn btn-secondary btn-block">
                                                     <i class="fas fa-undo"></i> Reset Filters
                                                 </a>
                                             </div>
@@ -227,44 +142,43 @@
                                 </div>
                             </form>
 
-
-                            <!-- DataTable -->
                             <div class="table-responsive mt-4">
                                 <table class="table table-bordered table-striped table-hover" id="dataTable" width="100%" cellspacing="0">
                                     <thead>
                                         <tr>
                                             <th>Name</th>
                                             <th>Province</th>
-                                            <th>City</th>
+                                            <th>Kota</th>
                                             <th>Status</th>
                                             <th>Value</th>
                                             <th>Midtrans ID</th>
-                                            <th>Transaction Date</th>
+                                            <th>Tanggal transaksi</th>
                                         </tr>
                                     </thead>
                                     <tfoot>
                                         <tr>
                                             <th>Name</th>
                                             <th>Province</th>
-                                            <th>City</th>
+                                            <th>Kota</th>
                                             <th>Status</th>
                                             <th>Value</th>
                                             <th>Midtrans ID</th>
-                                            <th>Transaction Date</th>
+                                            <th>Tanggal transaksi</th>
                                         </tr>
                                     </tfoot>
                                     <tbody>
                                         @foreach($payment as $pay)
                                         <tr>
-                                            <td>{{ $pay->user ? $pay->user->name : 'No User' }}</td>
+                                            @if($pay->user)
+                                            <td>{{ $pay->user->name }}</td>
+                                            @else
+                                            <td>Tidak ada user</td>
+                                            @endif
+
                                             <td>{{ $pay->user && $pay->user->profile && $pay->user->profile->province ? $pay->user->profile->province->name : 'N/A' }}</td>
                                             <td>{{ $pay->user && $pay->user->profile && $pay->user->profile->city ? $pay->user->profile->city->name : 'N/A' }}</td>
-                                            <td>
-                                                <span class="badge status-badge {{ $pay->status == 'success' ? 'success' : 'failed' }}">
-                                                    {{ ucfirst($pay->status) }}
-                                                </span>
-                                            </td>
-                                            <td>Rp {{ number_format($pay->value, 0, ',', '.') }}</td>
+                                            <td>{{ $pay->status }}</td>
+                                            <td>Rp {{ $pay->value }}</td>
                                             <td>{{ $pay->midtrans_id ?? '-' }}</td>
                                             <td>{{ $pay->created_at ? $pay->created_at->format('d M Y') : '-' }}</td>
                                         </tr>
@@ -274,6 +188,10 @@
                             </div>
                         </div>
                     </div>
+
+
+
+
 
 
 

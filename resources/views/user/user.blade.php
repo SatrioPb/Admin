@@ -118,6 +118,11 @@
                                             <i class="fas fa-filter"></i> Apply Filters
                                         </button>
                                     </div>
+                                    <div class="col">
+                                        <a href="{{ route('users.index') }}" class="btn btn-secondary btn-block">
+                                            <i class="fas fa-undo"></i> Reset Filters
+                                        </a>
+                                    </div>
                                 </div>
                             </form>
 
