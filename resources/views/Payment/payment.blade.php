@@ -48,48 +48,173 @@
                     </div>
 
                     <!-- DataTables Example -->
+                    <style>
+                        .filter-section .input-group-text {
+                            background-color: #f8f9fa;
+                            border: 1px solid #ced4da;
+                            border-radius: 0.35rem;
+                        }
+
+                        .filter-section select,
+                        .filter-section input {
+                            border-radius: 0.35rem;
+                        }
+
+                        .btn-gradient {
+                            background: linear-gradient(90deg, #4e73df, #224abe);
+                            color: white;
+                            transition: background 0.3s ease;
+                        }
+
+                        .btn-gradient:hover {
+                            background: linear-gradient(90deg, #224abe, #4e73df);
+                        }
+
+                        .status-badge.success {
+                            background-color: #28a745;
+                            color: white;
+                        }
+
+                        .status-badge.failed {
+                            background-color: #dc3545;
+                            color: white;
+                        }
+                    </style>
+
                     <div class="card shadow-lg mb-4">
-                        <div class="card-header py-2 bg-primary text-white">
-                            <h6 class="m-0 font-weight-bold">DataTables Example</h6>
+                        <div class="card-header py-3 bg-primary text-white rounded-top">
+                            <h6 class="m-0 font-weight-bold">Payment Data</h6>
                         </div>
-                        <div class="card-body">
-                            <div class="table-responsive">
+                        <div class="card-body filter-section">
+                            <!-- Filter Form -->
+                            <form method="GET" action="{{ route('payment.index') }}">
+                                <div class="form-row">
+                                    <!-- Filter by Province -->
+                                    <div class="col-md-3 mb-3">
+                                        <div class="input-group">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text"><i class="fas fa-map-marker-alt"></i></span>
+                                            </div>
+                                            <select class="form-control" id="province_filter" name="province_id">
+                                                <option value="">All Provinces</option>
+                                                @foreach($provinces as $province)
+                                                <option value="{{ $province->id }}" {{ request('province_id') == $province->id ? 'selected' : '' }}>
+                                                    {{ $province->name }}
+                                                </option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <!-- Filter by City -->
+                                    <div class="col-md-3 mb-3">
+                                        <div class="input-group">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text"><i class="fas fa-city"></i></span>
+                                            </div>
+                                            <select class="form-control" id="city_filter" name="city_id">
+                                                <option value="">All Cities</option>
+                                                @foreach($cities as $city)
+                                                <option value="{{ $city->id }}" {{ request('city_id') == $city->id ? 'selected' : '' }}>
+                                                    {{ $city->name }}
+                                                </option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <!-- Filter by Start Date -->
+                                    <div class="col-md-3 mb-3">
+                                        <div class="input-group">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text"><i class="fas fa-calendar-alt"></i></span>
+                                            </div>
+                                            <input type="date" class="form-control" id="start_date" name="start_date" value="{{ request('start_date') }}">
+                                        </div>
+                                    </div>
+
+                                    <!-- Filter by End Date -->
+                                    <div class="col-md-3 mb-3">
+                                        <div class="input-group">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text"><i class="fas fa-calendar-alt"></i></span>
+                                            </div>
+                                            <input type="date" class="form-control" id="end_date" name="end_date" value="{{ request('end_date') }}">
+                                        </div>
+                                    </div>
+
+                                    <!-- Filter by Value -->
+                                    <div class="col-md-3 mb-3">
+                                        <div class="input-group">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text"><i class="fas fa-dollar-sign"></i></span>
+                                            </div>
+                                            <select class="form-control" id="value_filter" name="value">
+                                                <option value="">All Values</option>
+                                                <option value="35000" {{ request('value') == '35000' ? 'selected' : '' }}>35000</option>
+                                                <option value="65000++" {{ request('value') == '65000++' ? 'selected' : '' }}>Above 65000</option>
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <!-- Filter and Reset Buttons -->
+                                    <div class="col-md-3 mb-3">
+                                        <div class="form-row">
+                                            <div class="col">
+                                                <button type="submit" class="btn btn-primary btn-block">
+                                                    <i class="fas fa-filter"></i> Apply Filters
+                                                </button>
+                                            </div>
+                                            <div class="col">
+                                                <a href="{{ route('payment.index') }}" class="btn btn-secondary btn-block">
+                                                    <i class="fas fa-undo"></i> Reset Filters
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+
+
+                            <!-- DataTable -->
+                            <div class="table-responsive mt-4">
                                 <table class="table table-bordered table-striped table-hover" id="dataTable" width="100%" cellspacing="0">
                                     <thead>
                                         <tr>
                                             <th>Name</th>
-                                            <th>Description</th>
+                                            <th>Province</th>
+                                            <th>City</th>
                                             <th>Status</th>
                                             <th>Value</th>
                                             <th>Midtrans ID</th>
+                                            <th>Transaction Date</th>
                                         </tr>
                                     </thead>
                                     <tfoot>
                                         <tr>
                                             <th>Name</th>
-                                            <th>Description</th>
+                                            <th>Province</th>
+                                            <th>City</th>
                                             <th>Status</th>
                                             <th>Value</th>
                                             <th>Midtrans ID</th>
+                                            <th>Transaction Date</th>
                                         </tr>
                                     </tfoot>
                                     <tbody>
                                         @foreach($payment as $pay)
                                         <tr>
-                                            @if($pay->user)
-                                            <td>{{ $pay->user->name }}</td>
-                                            @else
-                                            <td>Tidak Ada User</td>
-                                            @endif
-                                            <td>{{ $pay->key }}</td>
-
-                                            <!-- Apply conditional background color only for the status column -->
-                                            <td class="{{ $pay->status == 'success' ? 'bg-success text-white' : '' }}">
-                                                {{ $pay->status }}
+                                            <td>{{ $pay->user ? $pay->user->name : 'No User' }}</td>
+                                            <td>{{ $pay->user && $pay->user->profile && $pay->user->profile->province ? $pay->user->profile->province->name : 'N/A' }}</td>
+                                            <td>{{ $pay->user && $pay->user->profile && $pay->user->profile->city ? $pay->user->profile->city->name : 'N/A' }}</td>
+                                            <td>
+                                                <span class="badge status-badge {{ $pay->status == 'success' ? 'success' : 'failed' }}">
+                                                    {{ ucfirst($pay->status) }}
+                                                </span>
                                             </td>
-
-                                            <td>{{ $pay->value }}</td>
-                                            <td>{{ $pay->midtrans_id }}</td>
+                                            <td>Rp {{ number_format($pay->value, 0, ',', '.') }}</td>
+                                            <td>{{ $pay->midtrans_id ?? '-' }}</td>
+                                            <td>{{ $pay->created_at ? $pay->created_at->format('d M Y') : '-' }}</td>
                                         </tr>
                                         @endforeach
                                     </tbody>
@@ -97,6 +222,8 @@
                             </div>
                         </div>
                     </div>
+
+
 
 
 

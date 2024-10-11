@@ -50,55 +50,94 @@
                     <!-- DataTables Example -->
                     <div class="card shadow-lg mb-4">
                         <div class="card-header py-2 bg-primary text-white">
-                            <h6 class="m-0 font-weight-bold">DataTables Example</h6>
+                            <h6 class="m-0 font-weight-bold">Payment Success Data</h6>
                         </div>
                         <div class="card-body">
                             <!-- Filter Dropdown -->
                             <form method="GET" action="{{ route('payment.filter') }}">
-                                <div class="form-row align-items-end">
+                                <div class="form-row">
                                     <!-- Filter by Province -->
-                                    <div class="form-group col-md-3 mb-3">
-                                        <label for="province_filter">Select Province:</label>
-                                        <select class="form-control" id="province_filter" name="province_id">
-                                            <option value="">All Provinces</option>
-                                            @foreach($provinces as $province)
-                                            <option value="{{ $province->id }}"
-                                                {{ request('province_id') == $province->id ? 'selected' : '' }}>
-                                                {{ $province->name }}
-                                            </option>
-                                            @endforeach
-                                        </select>
+                                    <div class="col-md-3 mb-3">
+                                        <div class="input-group">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text"><i class="fas fa-map-marker-alt"></i></span>
+                                            </div>
+                                            <select class="form-control" id="province_filter" name="province_id">
+                                                <option value="">All Provinces</option>
+                                                @foreach($provinces as $province)
+                                                <option value="{{ $province->id }}" {{ request('province_id') == $province->id ? 'selected' : '' }}>
+                                                    {{ $province->name }}
+                                                </option>
+                                                @endforeach
+                                            </select>
+                                        </div>
                                     </div>
 
                                     <!-- Filter by City -->
-                                    <div class="form-group col-md-3 mb-3">
-                                        <label for="city_filter">Select City:</label>
-                                        <select class="form-control" id="city_filter" name="city_id">
-                                            <option value="">All Cities</option>
-                                            @foreach($cities as $city)
-                                            <option value="{{ $city->id }}"
-                                                {{ request('city_id') == $city->id ? 'selected' : '' }}>
-                                                {{ $city->name }}
-                                            </option>
-                                            @endforeach
-                                        </select>
+                                    <div class="col-md-3 mb-3">
+                                        <div class="input-group">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text"><i class="fas fa-city"></i></span>
+                                            </div>
+                                            <select class="form-control" id="city_filter" name="city_id">
+                                                <option value="">All Cities</option>
+                                                @foreach($cities as $city)
+                                                <option value="{{ $city->id }}" {{ request('city_id') == $city->id ? 'selected' : '' }}>
+                                                    {{ $city->name }}
+                                                </option>
+                                                @endforeach
+                                            </select>
+                                        </div>
                                     </div>
 
                                     <!-- Filter by Start Date -->
-                                    <div class="form-group col-md-3 mb-3">
-                                        <label for="start_date">Start Date:</label>
-                                        <input type="date" class="form-control" id="start_date" name="start_date" value="{{ request('start_date') }}">
+                                    <div class="col-md-3 mb-3">
+                                        <div class="input-group">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text"><i class="fas fa-calendar-alt"></i></span>
+                                            </div>
+                                            <input type="date" class="form-control" id="start_date" name="start_date" value="{{ request('start_date') }}">
+                                        </div>
                                     </div>
 
                                     <!-- Filter by End Date -->
-                                    <div class="form-group col-md-3 mb-3">
-                                        <label for="end_date">End Date:</label>
-                                        <input type="date" class="form-control" id="end_date" name="end_date" value="{{ request('end_date') }}">
+                                    <div class="col-md-3 mb-3">
+                                        <div class="input-group">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text"><i class="fas fa-calendar-alt"></i></span>
+                                            </div>
+                                            <input type="date" class="form-control" id="end_date" name="end_date" value="{{ request('end_date') }}">
+                                        </div>
                                     </div>
 
-                                    <!-- Filter Button -->
-                                    <div class="form-group col-md-2 mb-3">
-                                        <button type="submit" class="btn btn-primary btn-block">Apply Filters</button>
+                                    <!-- Filter by Value -->
+                                    <div class="col-md-3 mb-3">
+                                        <div class="input-group">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text"><i class="fas fa-dollar-sign"></i></span>
+                                            </div>
+                                            <select class="form-control" id="value_filter" name="value">
+                                                <option value="">All Values</option>
+                                                <option value="35000" {{ request('value') == '35000' ? 'selected' : '' }}>35000</option>
+                                                <option value="65000++" {{ request('value') == '65000++' ? 'selected' : '' }}>Above 65000</option>
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <!-- Filter and Reset Buttons -->
+                                    <div class="col-md-3 mb-3">
+                                        <div class="form-row">
+                                            <div class="col">
+                                                <button type="submit" class="btn btn-primary btn-block">
+                                                    <i class="fas fa-filter"></i> Apply Filters
+                                                </button>
+                                            </div>
+                                            <div class="col">
+                                                <a href="{{ route('payment.filter') }}" class="btn btn-secondary btn-block">
+                                                    <i class="fas fa-undo"></i> Reset Filters
+                                                </a>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </form>
@@ -141,7 +180,7 @@
                                             <td>{{ $pay->status }}</td>
                                             <td>Rp {{ $pay->value }}</td>
                                             <td>{{ $pay->midtrans_id ?? '-' }}</td>
-                                            <td>{{ $pay->created_at ?? '-' }}</td>
+                                            <td>{{ $pay->created_at ? $pay->created_at->format('d M Y') : '-' }}</td>
                                         </tr>
                                         @endforeach
                                     </tbody>

@@ -24,6 +24,14 @@ class UserController extends Controller
         // Mengirim data ke view
         return view('user/user', compact('users', 'userCount', 'provinces', 'cities'));
     }
+    public function edit($id)
+    {
+        // Mengambil data pengguna berdasarkan ID
+        $user = User::with(['profile.province', 'profile.cities'])->findOrFail($id);
+
+        // Mengirim data pengguna ke view edit
+        return view('user/edituser', compact('user'));
+    }
 
     // Fungsi untuk memperbarui data pengguna
     public function update(Request $request, $id)

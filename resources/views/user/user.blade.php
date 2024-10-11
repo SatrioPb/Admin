@@ -54,56 +54,69 @@
                         </div>
 
                         <div class="card-body">
-                            <div class="d-sm-flex align-items-center justify-content-between mb-4">
-                                <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
-                                        class="fas fa-download fa-sm text-white-50"></i> Generate Report</a>
-                            </div>
+
                             <!-- Filter Dropdown -->
                             <form method="GET" action="{{ route('user.filter') }}">
-                                <div class="form-row align-items-end">
+                                <div class="form-row">
                                     <!-- Filter by Province -->
-                                    <div class="form-group col-md-4 mb-3">
-                                        <label for="province_filter">Select Province:</label>
-                                        <select class="form-control" id="province_filter" name="province_id">
-                                            <option value="">All Provinces</option>
-                                            @foreach($provinces as $province)
-                                            <option value="{{ $province->id }}"
-                                                {{ request('province_id') == $province->id ? 'selected' : '' }}>
-                                                {{ $province->name }}
-                                            </option>
-                                            @endforeach
-                                        </select>
+                                    <div class="col-md-3 mb-3">
+                                        <div class="input-group">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text"><i class="fas fa-map-marker-alt"></i></span>
+                                            </div>
+                                            <select class="form-control" id="province_filter" name="province_id">
+                                                <option value="">All Provinces</option>
+                                                @foreach($provinces as $province)
+                                                <option value="{{ $province->id }}" {{ request('province_id') == $province->id ? 'selected' : '' }}>
+                                                    {{ $province->name }}
+                                                </option>
+                                                @endforeach
+                                            </select>
+                                        </div>
                                     </div>
 
                                     <!-- Filter by City -->
-                                    <div class="form-group col-md-4 mb-3">
-                                        <label for="city_filter">Select City:</label>
-                                        <select class="form-control" id="city_filter" name="city_id">
-                                            <option value="">All Cities</option>
-                                            @foreach($cities as $city)
-                                            <option value="{{ $city->id }}"
-                                                {{ request('city_id') == $city->id ? 'selected' : '' }}>
-                                                {{ $city->name }}
-                                            </option>
-                                            @endforeach
-                                        </select>
+                                    <div class="col-md-3 mb-3">
+                                        <div class="input-group">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text"><i class="fas fa-city"></i></span>
+                                            </div>
+                                            <select class="form-control" id="city_filter" name="city_id">
+                                                <option value="">All Cities</option>
+                                                @foreach($cities as $city)
+                                                <option value="{{ $city->id }}" {{ request('city_id') == $city->id ? 'selected' : '' }}>
+                                                    {{ $city->name }}
+                                                </option>
+                                                @endforeach
+                                            </select>
+                                        </div>
                                     </div>
 
                                     <!-- Filter by Start Date -->
-                                    <div class="form-group col-md-4 mb-3">
-                                        <label for="start_date">Start Date:</label>
-                                        <input type="date" class="form-control" id="start_date" name="start_date" value="{{ request('start_date') }}">
+                                    <div class="col-md-3 mb-3">
+                                        <div class="input-group">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text"><i class="fas fa-calendar-alt"></i></span>
+                                            </div>
+                                            <input type="date" class="form-control" id="start_date" name="start_date" value="{{ request('start_date') }}">
+                                        </div>
                                     </div>
 
                                     <!-- Filter by End Date -->
-                                    <div class="form-group col-md-4 mb-3">
-                                        <label for="end_date">End Date:</label>
-                                        <input type="date" class="form-control" id="end_date" name="end_date" value="{{ request('end_date') }}">
+                                    <div class="col-md-3 mb-3">
+                                        <div class="input-group">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text"><i class="fas fa-calendar-alt"></i></span>
+                                            </div>
+                                            <input type="date" class="form-control" id="end_date" name="end_date" value="{{ request('end_date') }}">
+                                        </div>
                                     </div>
 
                                     <!-- Filter Button -->
-                                    <div class="form-group col-md-2 mb-3">
-                                        <button type="submit" class="btn btn-primary btn-block">Apply Filters</button>
+                                    <div class="form-group col-md-2 mb-3 ml-auto">
+                                        <button type="submit" class="btn btn-primary btn-block">
+                                            <i class="fas fa-filter"></i> Apply Filters
+                                        </button>
                                     </div>
                                 </div>
                             </form>
@@ -112,6 +125,7 @@
                                 <table class="table table-bordered table-striped table-hover" id="dataTable" width="100%" cellspacing="0">
                                     <thead>
                                         <tr>
+                                            <th>KTA ID</th>
                                             <th>Name</th>
                                             <th>Email</th>
                                             <th>Contact</th>
@@ -120,6 +134,7 @@
                                     </thead>
                                     <tfoot>
                                         <tr>
+                                            <th>KTA ID</th>
                                             <th>Name</th>
                                             <th>Email</th>
                                             <th>Contact</th>
@@ -129,6 +144,7 @@
                                     <tbody>
                                         @foreach($users as $user)
                                         <tr>
+                                            <td>{{$user->kta_id}}</td>
                                             <td>{{ $user->name }}</td>
                                             <td>{{ $user->email }}</td>
                                             <td>{{ $user->profile ? $user->profile->contact : '-' }}</td>
